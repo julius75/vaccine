@@ -37,8 +37,7 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>Next Dose Date</th>
-                    <th>Approved</th>
+                    <th>Next Dose</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -72,8 +71,7 @@
                         {data: 'last_name', name: 'last_name'},
                         {data: 'email', name: 'email'},
                         {data: 'phone', name: 'phone'},
-                        {data: 'next_dose_date', name: 'next_dose_date'},
-                        {data: 'approved', name: 'approved'},
+                        {data: 'date_dose', name: 'date_dose'},
                         {data: 'action', name: 'action'},
                     ],
                     columnDefs: [

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Request as RequestModel;
 
 use Illuminate\Http\Request;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +14,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CovidController extends Controller
 {
+    use SerializesModels;
+
     /**
      * Display a listing of the resource.
      *
@@ -22,11 +25,17 @@ class CovidController extends Controller
     {
         return view('admin.application.index');
     }
+    public function getDashboard(){
+       $applications =  \App\Models\Request::count();
+        return view('admin.dashboard',compact('applications'));
+    }
     public function getVendors()
     {
-        $users = \App\Models\Request::all();
+        $users = \App\Models\Request::orderBy('created_at', 'desc')->get();
         return Datatables::of($users)
-
+            ->addColumn('date_dose', function ($users){
+                return  Carbon::parse($users->next_dose_date)->isoFormat('MMM D YYYY');
+            })
             ->addColumn('action', function ($users) {
                 return '<div class="dropdown dropdown-inline">
 								<a href="" class="btn btn-sm btn-clean btn-icon" data-toggle="dropdown">
@@ -35,14 +44,13 @@ class CovidController extends Controller
 							  	<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
 									<ul class="nav nav-hoverable flex-column">
 							    		<li class="nav-item"><a class="nav-link" href="'.route('application.show',Crypt::encrypt($users->id)).'"><i class="nav-icon la la-stop-circle"></i><span class="nav-text">View  Application</span></a></li>
-							    		<li class="nav-item"><a class="nav-link" href="'.route('application.edit',Crypt::encrypt($users->id)).'"><i class="nav-icon la la-edit"></i><span class="nav-text">Approve Application</span></a></li>
+							    		<li class="nav-item"><a class="nav-link" href="'.route('application.edit',Crypt::encrypt($users->id)).'"><i class="nav-icon la la-edit"></i><span class="nav-text">Edit Application</span></a></li>
 							    	</ul>
 							  	</div>
 							</div>
 
 						';
             })
-            ->rawColumns(['action'])
             ->make(true);
     }
 
@@ -61,7 +69,7 @@ class CovidController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return string
      */
     public function store(Request $request)
     {
@@ -75,7 +83,6 @@ class CovidController extends Controller
             'dose_type' => 'required',
             'phone'=> 'required',
         ]);
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -88,8 +95,8 @@ class CovidController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'id_number' => $request->id_number,
-                'date_of_birth' => $request->dob,
-                'next_dose_date' => $request->next_dose_date,
+                'date_of_birth' => Carbon::parse($request->dob)->format('Y-m-d'),
+                'next_dose_date' => Carbon::parse($request->next_dose_date)->format('Y-m-d'),
                 'dose_type' => $request->dose_type,
             ]);
 

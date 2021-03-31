@@ -24,8 +24,8 @@ Route::resource('application', CovidController::class);
 //datatable
 Route::get('get-all-applications', [CovidController::class, 'getVendors'])->name('get-all-applications');
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth'])->name('dashboard');
+
+Route::get('/dashboard', [CovidController::class, 'getDashboard'])->middleware(['auth'])->name('dashboard');
+
 
 require __DIR__.'/auth.php';

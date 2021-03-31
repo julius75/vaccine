@@ -1,4 +1,7 @@
 @extends('admin.layout.master')
+@section('styles')
+    <link href="{{asset('assets/css/bootstrap-datepicker.css')}}" rel="stylesheet" type="text/css" />
+@endsection
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom card-transparent">
@@ -45,17 +48,11 @@
                                     <label>Email:</label>
                                     <input type="email" class="form-control" name="email" placeholder="Enter email" required/>
                                 </div>
-
-                                <div class="col-lg-6">
-                                    <label>Date of Birth :</label>
-                                    <div class="input-group">
-                                        <input type="date" class="form-control" name="dob" placeholder="Enter date of birth" required/>
-                                        <div class="input-group-append"><span class="input-group-text"><i class="la la-bookmark-o"></i></span>
-                                        </div>
+                                    <div class="col-lg-6">
+                                        <label>Date of Birth :</label>
+                                        <input type="text" class="date form-control" name="dob" placeholder="Enter date of birth" required/>
                                     </div>
-                                </div>
                             </div>
-
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Vaccines Type:</label>
@@ -70,15 +67,10 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Next Dose Date :</label>
-                                    <div class="input-group">
-                                        <input type="date" class="form-control" name="next_dose_date" placeholder="Date of next dose" required/>
-                                        <div class="input-group-append">
-																	<span class="input-group-text">
-																		<i class="la la-bookmark-o"></i>
-																	</span>
-                                        </div>
-                                    </div>
+                                    <input type="text" class="date form-control" name="next_dose_date" placeholder="Enter Date of next dose" required/>
+
                                 </div>
+
                             </div>
                         <div class="card-footer">
                             <div class="row">
@@ -99,7 +91,14 @@
     <!--end::Card-->
 @endsection
 @section('scripts')
-{{--    <script src="{{asset('assets/js/pages/custom/user/add-user.js')}}"></script>--}}
+    <script src="{{asset('assets/js/jquery.js')}}"></script>
+    <script src="{{asset('assets/js/bootstrap-datepicker.js')}}"></script>
+
+    <script type="text/javascript">
+        $('.date').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    </script>
 {{--    <script>--}}
 {{--        $( ".random" ).click(function( event ) {--}}
 {{--            event.preventDefault();--}}

@@ -57,6 +57,9 @@
 																</svg>
                                                                 <!--end::Svg Icon-->
 															</span>
+                            <span class="text-primary font-weight-bold font-size-h3 mt-2">
+                                {{$applications}}
+                            </span>
                             <a href="#" class="text-warning font-weight-bold font-size-h6">Applications</a>
                         </div>
                         <div class="col bg-light-danger px-6 py-8 rounded-xl mr-7">
