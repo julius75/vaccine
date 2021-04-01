@@ -62,7 +62,7 @@
                                 </g>
                             </svg><!--end::Svg Icon-->
                         </span>
-                        <span class="menu-text">All Application</span>
+                        <span class="menu-text">All Records</span>
                     </a>
                 </li>
                 <!---Vendors---->

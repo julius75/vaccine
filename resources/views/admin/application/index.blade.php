@@ -22,7 +22,7 @@
                                 </g>
                             </svg>
                             <!--end::Svg Icon-->
-                        </span>Create New Application
+                        </span>Create New Record
                 </a>
                 <!--end::Button-->
             </div>
