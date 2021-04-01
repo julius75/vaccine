@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Yajra\DataTables\Facades\DataTables;
+use function PHPUnit\Framework\isEmpty;
 
 class CovidController extends Controller
 {
@@ -91,10 +92,26 @@ class CovidController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        if ($request->get('immunocompromised') == null ){
+            $immunocompromised= null;
+        }
+        elseif (!$request->get('immunocompromised') == null) {
+            $immunocompromised = implode(",", $request->get('immunocompromised'));
+        }
+        if ($request->get('symptoms') == null ){
+            $symptoms= null;
+        }
+        elseif (!$request->get('symptoms') == null) {
+            $symptoms = implode(",", $request->get('symptoms'));
+        }
+        if ($request->get('disease') == null ){
+            $vehicleString= null;
+        }
+        elseif (!$request->get('disease') == null) {
+            $vehicleString = implode(",", $request->get('disease'));
+        }
         //$input['user_has_disease'] = $request->input('disease');
-        $vehicleString = implode(",", $request->get('disease'));
-        $immunocompromised = implode(",", $request->get('immunocompromised'));
-        $symptoms = implode(",", $request->get('symptoms'));
 
         $code = rand(pow(10, 7-1), pow(10, 7)-1);
         try {
