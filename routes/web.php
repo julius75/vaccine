@@ -19,13 +19,20 @@ Route::get('/', function () {
 });
 //Route::get('/', [CovidController::class, 'index']);
 
-Route::resource('application', CovidController::class);
+Route::resource('application', CovidController::class)->middleware(['auth']);
 
 //datatable
-Route::get('get-all-applications', [CovidController::class, 'getVendors'])->name('get-all-applications');
+Route::get('get-all-applications', [CovidController::class, 'getVendors'])->name('get-all-applications')->middleware(['auth']);
+Route::get('getcertificate/{id}',[CovidController::class, 'createPDF'])->name('getcertificate')->middleware(['auth']);
+//Route::get('getcertificate',array('as'=>'pdfview','uses'=>'App\Http\Controllers\CovidController@pdfview'));
 
 
 Route::get('/dashboard', [CovidController::class, 'getDashboard'])->middleware(['auth'])->name('dashboard');
 
+Route::get('qrcode', function () {
+    return QrCode::size(250)
+        ->backgroundColor(255, 255, 204)
+        ->generate('MyNotePaper');
+});
 
 require __DIR__.'/auth.php';

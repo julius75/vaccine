@@ -16,36 +16,31 @@
                 <!--begin::Card-->
                 <div class="card card-custom gutter-b example example-compact">
                     <div class="card-header">
-                        <h3 class="card-title align-center">COVID-19 Vaccine Registration Form</h3>
+                        <h3 class="card-title align-center">COVID-19 Vaccine User Details</h3>
                     </div>
                     <!--begin::Form-->
-                    <form class="form" method="POST" action="{{route('application.store')}}">
-                        {{csrf_field()}}
+                    <form class="form">
                         <div class="card-body">
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>First Name:</label>
-                                    <input type="text" class="form-control" name="first_name"
-                                           placeholder="Enter full name" required/>
+                                    <input type="text" class="form-control" name="first_name" value="{{$user->first_name}}" readonly/>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Last Name:</label>
-                                    <input type="text" class="form-control" name="last_name"
-                                           placeholder="Enter full name" required/>
+                                    <input type="text" class="form-control" value="{{$user->last_name}}" readonly/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Phone Number:</label>
-                                    <input type="text" class="form-control" name="phone"
-                                           placeholder="Enter contact number" required/>
+                                    <input type="text" class="form-control" value="{{$user->phone}}" readonly/>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <label>National ID/Passport:</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="id_number"
-                                               placeholder="National ID/Passport" required/>
+                                        <input type="text" class="form-control" name="id_number" value="{{$user->id_number}}" readonly/>
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="la la-bookmark-o"></i></span>
                                         </div>
@@ -55,13 +50,11 @@
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Email:</label>
-                                    <input type="email" class="form-control" name="email" placeholder="Enter email"
-                                           required/>
+                                    <input type="email" class="form-control" value="{{$user->phone}}" readonly/>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Date of Birth :</label>
-                                    <input type="text" class="date form-control" name="dob"
-                                           placeholder="Enter date of birth" required/>
+                                    <input type="text" class="date form-control" value="{{Carbon\Carbon::parse($user->date_of_birth)->isoFormat('MMM D YYYY')}}" readonly/>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -69,17 +62,17 @@
                                     <label>Vaccines Type:</label>
                                     <div class="radio-inline">
                                         <label class="radio radio-solid  mr-3">
-                                            <input type="radio" name="dose_type"  value="1" required/>
+                                            <input type="radio" name="dose_type" value="{{$user->dose_type}}" readonly/>
                                             <span></span>One</label>
                                         <label class="radio radio-solid">
-                                            <input type="radio" name="dose_type" value="2" required/>
+                                            <input type="radio" name="dose_type" value="{{$user->dose_type}}" readonly/>
                                             <span></span>Two</label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Next Dose Date :</label>
-                                    <input type="text" class="date form-control" name="next_dose_date"
-                                           placeholder="Enter Date of next dose" required/>
+                                    <input type="text" class="date form-control"
+                                          readonly value="{{Carbon\Carbon::parse($user->next_dose_date)->isoFormat('MMM D YYYY')}}" />
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -103,15 +96,15 @@
                                                     bovine protein)?
                                                 </th>
                                                 <td class="border-line"><label class="radio radio-lg">
-                                                        <input type="radio"  name="allergies" value="Yes"/>
+                                                        <input type="radio"  name="allergies" value="{{$user->allergies}}"/>
                                                         <span></span>
                                                     </label></td>
                                                 <td class="border-line"><label class="radio radio-lg">
-                                                        <input type="radio"  name="allergies" value="No"/>
+                                                        <input type="radio"  name="allergies" value="{{$user->allergies}}"/>
                                                         <span></span>
                                                     </label></td>
                                                 <td class="border-line"><label class="radio radio-lg">
-                                                        <input type="radio" name="allergies" value="Don't know"/>
+                                                        <input type="radio" name="allergies" value="{{$user->allergies}}"/>
                                                         <span></span>
                                                     </label>
                                                 </td>
@@ -421,11 +414,6 @@
                                     </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <button type="submit" class="btn btn-primary font-weight-bolder  btn-lg">Submit</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </form>
@@ -439,14 +427,7 @@
     <!--end::Card-->
 @endsection
 @section('scripts')
-    <script src="{{asset('assets/js/jquery.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap-datepicker.js')}}"></script>
 
-    <script type="text/javascript">
-        $('.date').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-    </script>
     {{--    <script>--}}
     {{--        $( ".random" ).click(function( event ) {--}}
     {{--            event.preventDefault();--}}

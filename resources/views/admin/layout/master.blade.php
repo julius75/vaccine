@@ -144,10 +144,10 @@
             <div class="d-flex flex-column">
                 <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"></a>
 <!--                --><?php
-//                use Illuminate\Support\Facades\Auth;
-//                $user = Auth::guard('admin')->user();
-//                ?>
-                <div class="text-muted mt-1">{{ Auth::user()->firs_tname }} </div>
+                use Illuminate\Support\Facades\Auth;
+                $user = Auth::user();
+                ?>
+                <div class="text-muted mt-1">{{ $user->first_name }} </div>
                 <div class="navi mt-2">
                     <a href="#" class="navi-item">
 								<span class="navi-link p-0 pb-2">
@@ -165,7 +165,7 @@
 										</span>
 									</span>
 
-									<span class="navi-text text-muted text-hover-primary">{{ Auth::user()->email }}</span>
+									<span class="navi-text text-muted text-hover-primary">{{ $user->email }}</span>
 								</span>
                     </a>
                     {{--                    <form method="POST" action="{{ route('admin.auth.logout') }}">--}}

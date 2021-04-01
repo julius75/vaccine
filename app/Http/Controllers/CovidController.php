@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Carbon\Carbon;
 use App\Models\Request as RequestModel;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Yajra\DataTables\Facades\DataTables;
 
 class CovidController extends Controller
@@ -45,6 +48,8 @@ class CovidController extends Controller
 									<ul class="nav nav-hoverable flex-column">
 							    		<li class="nav-item"><a class="nav-link" href="'.route('application.show',Crypt::encrypt($users->id)).'"><i class="nav-icon la la-stop-circle"></i><span class="nav-text">View  Application</span></a></li>
 							    		<li class="nav-item"><a class="nav-link" href="'.route('application.edit',Crypt::encrypt($users->id)).'"><i class="nav-icon la la-edit"></i><span class="nav-text">Edit Application</span></a></li>
+							    		<li class="nav-item"><a class="nav-link" href="'.route('getcertificate',Crypt::encrypt($users->id)).'"><i class="nav-icon la la-print"></i><span class="nav-text">Print Certificate</span></a></li>
+
 							    	</ul>
 							  	</div>
 							</div>
@@ -86,8 +91,12 @@ class CovidController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        //$input['user_has_disease'] = $request->input('disease');
+        $vehicleString = implode(",", $request->get('disease'));
+        $immunocompromised = implode(",", $request->get('immunocompromised'));
+        $symptoms = implode(",", $request->get('symptoms'));
 
-        // remove non digits including spaces, - and +
+        $code = rand(pow(10, 7-1), pow(10, 7)-1);
         try {
             $req = \App\Models\Request::create([
                 'first_name' => $request->first_name,
@@ -98,6 +107,21 @@ class CovidController extends Controller
                 'date_of_birth' => Carbon::parse($request->dob)->format('Y-m-d'),
                 'next_dose_date' => Carbon::parse($request->next_dose_date)->format('Y-m-d'),
                 'dose_type' => $request->dose_type,
+                'code' => $code,
+                'allergies' => $request->allergies,
+                'reaction' => $request->reaction,
+                'transfusion' => $request->transfusion,
+                'problems' => $request->problems,
+                'vaccinated' => $request->vaccinated,
+                'pregnant' => $request->pregnant,
+                'tested' => $request->tested,
+                'contacted_' => $request->contacted_,
+                'travelled' => $request->travelled,
+                'test_date' => $request->test_date,
+                'user_has_disease' => $vehicleString,
+                'immunocompromised' => $immunocompromised,
+                'symptoms' => $symptoms,
+
             ]);
 
             return redirect()->route('application.index')->with('flash_success', 'User Application submitted successfully');
@@ -105,16 +129,23 @@ class CovidController extends Controller
             return redirect()->route('application.create')->with('error', $exception);
         }
     }
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        try {
+            $id = Crypt::decrypt($id);
+            $user = \App\Models\Request::findOrFail($id);
+            return view('admin.application.show',compact('user'));
+        }
+        catch (ModelNotFoundException $e) {
+            return $e;
+        }
+
     }
 
     /**
@@ -126,6 +157,55 @@ class CovidController extends Controller
     public function edit($id)
     {
         //
+    }
+// Generate PDF
+    public function createPDF($id) {
+        try {
+            $id = Crypt::decrypt($id);
+            $data = \App\Models\Request::findOrFail($id);
+            $qr = QrCode::generate("yuyiuiu");
+            $qr = base64_encode($qr);
+            $image = base64_encode(file_get_contents(public_path('/images/health.png')));
+            $qr_code = QrCode::size(250)
+                ->backgroundColor(255, 255, 204)
+                ->generate('MyNotePaper');
+            $pdf = PDF::loadView('admin.application.pdfview',compact('data','image','qr','qr_code'));
+            $fileName = $data->first_name.' '. $data->last_name;
+            return $pdf->stream($fileName.'.pdf');
+        }
+        catch (ModelNotFoundException $e) {
+            return $e;
+        }
+        // retreive all records from db
+
+
+        //return PDF::loadFile(public_path().'/myfile.html')->save('/path-to/my_stored_file.pdf')->stream('download.pdf');
+        // view()->share('application',$data);
+
+    }
+    // Generate PDF
+    public function pdfview($id) {
+        {
+            try {
+                $id = Crypt::decrypt($id);
+               $data = \App\Models\Request::findOrFail($id);
+                //$data = \App\Models\Request::get()->first();
+                $image = base64_encode(file_get_contents(public_path('/images/health.png')));
+                $qr = QrCode::generate("$data->code");
+
+             //  view()->share('application',$data);
+                $pdf = PDF::loadView('admin.application.pdfview',['application'=> $data]);
+
+                // download PDF file with download method
+                $filename = $data->first_name;
+
+                return $pdf->stream($filename. 'pdf');
+            }
+            catch (ModelNotFoundException $e) {
+                return $e;
+            }
+        }
+
     }
 
     /**
