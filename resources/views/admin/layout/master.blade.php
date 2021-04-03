@@ -30,7 +30,7 @@
     <link href="{{asset('assets/css/themes/layout/brand/dark.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/themes/layout/aside/dark.css')}}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="{{asset('assets/media/logos/favicon.ico')}}" />
+    <link rel="shortcut icon" href="{{asset('assets/media/logos/logo-bliz.jpeg')}}" />
     @yield('styles')
 </head>
 
@@ -40,7 +40,7 @@
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
     <!--begin::Logo-->
     <a href="">
-        <img alt="Logo" src="{{asset('assets/media/logos/ruv.png')}}" style="padding: 0 25px;height: 45px;" />
+        <img alt="Logo" src="{{asset('assets/media/logos/logo-bliz.jpeg')}}" style="padding: 0 25px;height: 45px;" />
     </a>
     <!--end::Logo-->
     <!--begin::Toolbar-->
