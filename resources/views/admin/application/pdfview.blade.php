@@ -1,18 +1,80 @@
-<div style="width:100%; height:800px; padding:10px; text-align:center; border: 10px solid #787878">
-    < style="width:92%; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
-        <span style="font-size:50px; font-weight:bold">Vaccine Certificate</span>
-        <br><br>
-        <span style="font-size:25px"><i><img src="data:image/png;base64,{{ $image }}" style="height:100px;"></i></span>
+<html>
+<head>
+    <style type='text/css'>
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            color: black;
+            display: table;
+            font-family: Georgia, serif;
+            font-size: 24px;
+            text-align: center;
+        }
+        .container {
+            border: 20px solid tan;
+            width: 750px;
+            height: 563px;
+            display: block;
+            vertical-align: middle;
+        }
+        .logo {
+            color: tan;
+            margin-top: 40px;
+        }
+
+        .marks {
+            color: tan;
+            font-size: 48px;
+            margin: 20px;
+        }
+        .mark {
+            color: tan;
+            font-size: 28px;
+            margin: 20px;
+        }
+        .assignment {
+            margin: 20px;
+        }
+        .person {
+            font-size: 22px;
+            margin: 20px auto;
+            width: 400px;
+        }
+        .reason {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo" >
+        <img src="data:image/png;base64,{{ $image }}" style="height:100px;">
+    </div>
+
+    <div class="marks">
+        Covid-19 Vaccine Certificate
+    </div>
+
+    <div class="assignment">
+        This certificate is presented to
+    </div>
+
+    <div class="person">
+        <b>NAME: </b><i>{{$data->first_name}} {{$data->last_name}}</i>
         <br>
-        <span style="font-size:25px"><i>This is to certify that</i></span>
-        <br><br>
-        <span style="font-size:22px">NAME :<b>{{$data->first_name}} {{$data->last_name}}</b></span><br/><br/>
-        <span style="font-size:22px">ID / PASSPORT : <b>{{$data->id_number}}</b></span><br/><br/>
-        <span style="font-size:22px">APPLICATION ID : <b>{{$data->code}}</b></span><br/><br/>
+        <b>ID / PASSPORT: </b><i>{{$data->id_number}}</i>
 
-        <span style="font-size:25px"><i>has successfully received Covid-19 vaccine</i></span> <br/><br/>
+    </div>
 
-        <span style="font-size:28px"><b>Next Dose Date</b></span><br/><br/>
-        <span style="font-size:25px"><i>{{Carbon\Carbon::parse($data->next_dose_date)->isoFormat('MMM D YYYY')}}</i></span> <br/><br/>
-
+    <div class="reason">
+        Has successfully received Covid-19 vaccine on <span style="font-size:25px"><b>{{Carbon\Carbon::parse($data->created_at)->isoFormat('MMM D YYYY')}}</b></span>
+    </div>
+    <div class="mark">
+        Next Dose Date
+        <p><b>{{Carbon\Carbon::parse($data->next_dose_date)->isoFormat('MMM D YYYY')}}</b></p>
+    </div>
 </div>
+</body>
+</html>
