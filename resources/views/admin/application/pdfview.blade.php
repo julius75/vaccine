@@ -15,8 +15,8 @@
         }
         .container {
             border: 20px solid tan;
-            width: 780px;
-            height: 563px;
+            width: 750px;
+            height: 573px;
             display: block;
             vertical-align: middle;
         }
@@ -25,7 +25,7 @@
             margin-top: 40px;
         }
         .logos {
-            margin-right: -480px;
+            margin-right: -500px;
             margin-top: -105%;
         }
         .marks {
