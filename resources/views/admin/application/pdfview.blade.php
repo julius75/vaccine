@@ -77,9 +77,7 @@
     <div class="mark">
         Next Dose Date
         <p><b>{{Carbon\Carbon::parse($data->next_dose_date)->isoFormat('MMM D YYYY')}}</b></p>
-        <div style="float: left;margin-left:45vw;">
-            {{-- {!! $qr = QrCode::size(200)->generate("$application->code"); !!} --}}
-
+        <div class="logos" >
             <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
     ->size(200)->errorCorrection('H')
     ->generate($data->id_number )) !!} ">
