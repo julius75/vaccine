@@ -79,7 +79,7 @@
         <p><b>{{Carbon\Carbon::parse($data->next_dose_date)->isoFormat('MMM D YYYY')}}</b></p>
         <div class="logos" >
             <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
-    ->size(200)->errorCorrection('H')
+    ->size(100)->errorCorrection('H')
     ->generate($data->id_number )) !!} ">
         </div>
     </div>
