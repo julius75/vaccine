@@ -24,7 +24,10 @@
             color: tan;
             margin-top: 40px;
         }
-
+        .logos {
+            margin-right: -480px;
+            margin-top: -65%;
+        }
         .marks {
             color: tan;
             font-size: 48px;
@@ -74,6 +77,9 @@
     <div class="mark">
         Next Dose Date
         <p><b>{{Carbon\Carbon::parse($data->next_dose_date)->isoFormat('MMM D YYYY')}}</b></p>
+        <div class="logos" >
+            {!! QrCode::size(100)->generate('Qr code content - anything you want'); !!}
+        </div>
     </div>
 </div>
 </body>

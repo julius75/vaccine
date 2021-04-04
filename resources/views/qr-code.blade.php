@@ -7,7 +7,7 @@
 
 <div class="visible-print text-center">
 
-    {!! QrCode::size(200)->generate('Qr code content - anything you want'); !!}
+    {!! QrCode::size(100)->generate('Qr code content - anything you want'); !!}
 
 </div>
 
