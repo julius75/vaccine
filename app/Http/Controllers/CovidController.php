@@ -191,7 +191,10 @@ class CovidController extends Controller
                 'title' => "Bliss HEALTHCARE",
                 'body' => "This is to notify you have received the COVID-19 Vaccine certificate",
             ];
-            $pdf = PDF::loadView('admin.application.pdfview',compact('data','image'));
+            $qr = QrCode::generate("$data->id_number");
+            $qr = base64_encode($qr);
+
+            $pdf = PDF::loadView('admin.application.pdfview',compact('data','image','qr'));
             $fileName = $data->first_name.' '. $data->last_name;
 
             Mail::send('admin.application.send-email', $details, function($message)use($details, $pdf) {

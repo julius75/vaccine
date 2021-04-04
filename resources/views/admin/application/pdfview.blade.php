@@ -74,16 +74,15 @@
     <div class="reason">
         Has successfully received Covid-19 vaccine on <span style="font-size:25px"><b>{{Carbon\Carbon::parse($data->created_at)->isoFormat('MMM D YYYY')}}</b></span>
     </div>
-    <div class="visible-print text-center">
-
-        {!! QrCode::size(100)->generate('Qr code content - anything you want'); !!}
-
-    </div>
     <div class="mark">
         Next Dose Date
         <p><b>{{Carbon\Carbon::parse($data->next_dose_date)->isoFormat('MMM D YYYY')}}</b></p>
-        <div class="logos" >
-            {!! QrCode::size(100)->generate('Qr code content - anything you want'); !!}
+        <div style="float: left;margin-left:45vw;">
+            {{-- {!! $qr = QrCode::size(200)->generate("$application->code"); !!} --}}
+
+            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
+    ->size(200)->errorCorrection('H')
+    ->generate($data->id_number )) !!} ">
         </div>
     </div>
 </div>
