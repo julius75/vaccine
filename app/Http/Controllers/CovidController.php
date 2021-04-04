@@ -182,22 +182,16 @@ class CovidController extends Controller
         try {
             $id = Crypt::decrypt($id);
             $data = \App\Models\Request::findOrFail($id);
-            $qr = QrCode::generate("yuyiuiu");
-            $qr = base64_encode($qr);
+
             $image = base64_encode(file_get_contents(public_path('/images/logo-bliz.jpeg')));
-            $qr_code = QrCode::size(250)
-                ->backgroundColor(255, 255, 204)
-                ->generate('MyNotePaper');
-            $datas["email"] = "aatmaninfotech@gmail.com";
-            $datas["title"] = "From ItSolutionStuff.com";
-            $datas["body"] = "This is Demo";
+
             $details = [
                 'name' => $data->first_name. ' '.$data->last_name,
                 'email' => $data->email,
                 'title' => "Bliss HEALTHCARE",
                 'body' => "This is to notify you have received the COVID-19 Vaccine certificate",
             ];
-            $pdf = PDF::loadView('admin.application.pdfview',compact('data','image','qr','qr_code'));
+            $pdf = PDF::loadView('admin.application.pdfview',compact('data','image'));
             $fileName = $data->first_name.' '. $data->last_name;
 
             Mail::send('admin.application.send-email', $details, function($message)use($details, $pdf) {
