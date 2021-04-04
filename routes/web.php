@@ -29,10 +29,14 @@ Route::get('getcertificate/{id}',[CovidController::class, 'createPDF'])->name('g
 
 Route::get('/dashboard', [CovidController::class, 'getDashboard'])->middleware(['auth'])->name('dashboard');
 
-Route::get('qrcode', function () {
-    return QrCode::size(250)
-        ->backgroundColor(255, 255, 204)
-        ->generate('MyNotePaper');
-});
 
+Route::get('qr-code', function () {
+
+    \QrCode::size(500)
+        ->format('png')
+        ->generate('Content of qr code will go here', public_path('images/qrcode.png'));
+
+    return view('qr-code');
+
+});
 require __DIR__.'/auth.php';

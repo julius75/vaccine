@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <style type='text/css'>
@@ -52,7 +53,6 @@
     <div class="logo" >
         <img src="data:image/png;base64,{{ $image }}" style="height:100px;">
     </div>
-
     <div class="marks">
         Covid-19 Vaccine Certificate
     </div>
