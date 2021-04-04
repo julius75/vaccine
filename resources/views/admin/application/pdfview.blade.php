@@ -26,7 +26,7 @@
         }
         .logos {
             margin-right: -480px;
-            margin-top: -70%;
+            margin-top: -80%;
         }
         .marks {
             color: tan;
