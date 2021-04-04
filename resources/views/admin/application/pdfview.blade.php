@@ -15,7 +15,7 @@
         }
         .container {
             border: 20px solid tan;
-            width: 750px;
+            width: 780px;
             height: 563px;
             display: block;
             vertical-align: middle;
