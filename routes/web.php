@@ -34,7 +34,7 @@ Route::get('qr-code', function () {
 
     \QrCode::size(500)
         ->format('png')
-        ->generate('Content of qr code will go here', base64_encode(file_get_contents(public_path('/images/health.png'))));
+        ->generate('Content of qr code will go here', public_path('images/health.png'));
 
     return view('qr-code');
 
