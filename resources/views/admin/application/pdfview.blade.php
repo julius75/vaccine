@@ -25,7 +25,7 @@
             margin-top: 40px;
         }
         .logos {
-            margin-right: -500px;
+            margin-right: -720px;
             margin-top: -105%;
         }
         .marks {
