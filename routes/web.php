@@ -31,10 +31,10 @@ Route::get('/dashboard', [CovidController::class, 'getDashboard'])->middleware([
 
 
 Route::get('qr-code', function () {
-
-    \QrCode::size(500)
-        ->format('png')
-        ->generate('Content of qr code will go here', public_path('images/health.png'));
+//
+//    \QrCode::size(200)
+//        ->format('png')
+//        ->generate('Content of qr code will go here', public_path('images/health.png'));
 
     return view('qr-code');
 
